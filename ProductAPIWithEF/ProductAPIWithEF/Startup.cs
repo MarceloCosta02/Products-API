@@ -12,6 +12,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ProductAPIWithEF.Data;
 using Microsoft.EntityFrameworkCore;
+using ProductAPIWithEF.Repository.Interfaces;
+using ProductAPIWithEF.Repository.Implementations;
+using ProductAPIWithEF.Business.Interfaces;
+using ProductAPIWithEF.Business.Implementations;
 
 namespace ProductAPIWithEF
 {
@@ -35,6 +39,12 @@ namespace ProductAPIWithEF
 
             // Para reutilizar o DataContext existente via injeção de dependencia
             services.AddScoped<DataContext, DataContext>();
+
+            // Para reutilizar o Repositorio via injeção de dependencia
+            services.AddScoped<IProductRepository, ProductRepository>();
+
+            // Para reutilizar o Business via injeção de dependencia
+            services.AddScoped<IProductBusiness, ProductBusiness>();
 
             services.AddControllers();
         }
