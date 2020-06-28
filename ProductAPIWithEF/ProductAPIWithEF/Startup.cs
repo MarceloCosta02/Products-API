@@ -16,6 +16,9 @@ using ProductAPIWithEF.Repository.Interfaces;
 using ProductAPIWithEF.Repository.Implementations;
 using ProductAPIWithEF.Business.Interfaces;
 using ProductAPIWithEF.Business.Implementations;
+using System.Reflection;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace ProductAPIWithEF
 {
@@ -35,6 +38,15 @@ namespace ProductAPIWithEF
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "API with ASP NET Core 3.1",
+                        Version = "v1"
+                    });  
             });
 
             // Para reutilizar o DataContext existente via injeção de dependencia
@@ -67,6 +79,19 @@ namespace ProductAPIWithEF
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
+            });
+
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
+
+            
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ProductAPIWithEF.Business.Interfaces;
 using ProductAPIWithEF.Data;
 using ProductAPIWithEF.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 
 namespace ProductAPIWithEF.Controllers
